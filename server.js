@@ -27,7 +27,13 @@ for (let i = 0; i <= 1999; i++) {
 app.get('/users', (req, res) => {
   const { perPage, page } =  req.query;
 
-  res.json(users.slice(perPage * (page - 1), perPage * (page - 1) + perPage));
+  const from = (perPage * (page - 1));
+  const to = perPage * page;
+
+  res.json({
+    users: users.slice(from, to),
+    count: users.length,
+  });
 });
 
 process.on('ungandledRejection', r => logger.error('Unhandled rejection', r));
